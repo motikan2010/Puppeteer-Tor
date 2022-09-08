@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  puppeteer:
+    build:
+      context: .
+      dockerfile: ./docker/puppeteer/Dockerfile
+    depends_on:
+      - torproxy
+    volumes:
+      - ./src:/src
+      - ./work:/work
+    entrypoint: 'bash -c "sleep 6 && node /src/script.js"'
+
+  torproxy:
+    image: dperson/torproxy
+    ports:
+      - 8119:8118
+      - 9050:9050
